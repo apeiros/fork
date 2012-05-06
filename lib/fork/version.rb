@@ -6,6 +6,10 @@ rescue LoadError
   require 'gem/version' # older rubygems use this
 end
 
-module Fork
+
+
+class Fork
+
+  # The currently required version of the Fork gem
   Version = Gem::Version.new("0.0.1")
 end
