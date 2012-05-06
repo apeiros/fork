@@ -27,7 +27,7 @@ Usage
 
     # Create a fork with two-directional IO, which returns values and raises
     # exceptions in the parent process.
-    fork = Fork.new :in, :out do |fork|
+    fork = Fork.new :to_fork, :from_fork do |fork|
       while received = fork.receive_object
         p :fork_received => received
       end
