@@ -135,7 +135,7 @@ with each other.</p>
 <span class='kw'>end</span>
 <span class='id identifier rubyid_fork'>fork</span><span class='period'>.</span><span class='id identifier rubyid_execute'>execute</span>
 <span class='id identifier rubyid_puts'>puts</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Forked child process with pid </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_fork'>fork</span><span class='period'>.</span><span class='id identifier rubyid_pid'>pid</span><span class='rbrace'>}</span><span class='tstring_content'> is currently </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_fork'>fork</span><span class='period'>.</span><span class='id identifier rubyid_alive?'>alive?</span> <span class='op'>?</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>alive</span><span class='tstring_end'>'</span></span> <span class='op'>:</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>dead</span><span class='tstring_end'>'</span></span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span>
-<span class='id identifier rubyid_fork'>fork</span><span class='period'>.</span><span class='id identifier rubyid_return_value'>return_value</span> <span class='comment'># this blocks, until the fork finished, and returns the last value</span></pre>
+<span class='id identifier rubyid_puts'>puts</span> <span class='id identifier rubyid_fork'>fork</span><span class='period'>.</span><span class='id identifier rubyid_return_value'>return_value</span> <span class='comment'># this blocks, until the fork finished, and returns the last value</span></pre>
     
       
         <p class="example_title"><div class='inline'><p>The same, but a bit simpler</p>
@@ -145,7 +145,7 @@ with each other.</p>
 </span><span class='id identifier rubyid_fork'>fork</span> <span class='op'>=</span> <span class='const'>Fork</span><span class='period'>.</span><span class='id identifier rubyid_execute'>execute</span> <span class='symbol'>:return</span> <span class='kw'>do</span>
   <span class='id identifier rubyid_fib'>fib</span><span class='lparen'>(</span><span class='int'>35</span><span class='rparen'>)</span>
 <span class='kw'>end</span>
-<span class='id identifier rubyid_fork'>fork</span><span class='period'>.</span><span class='id identifier rubyid_return_value'>return_value</span> <span class='comment'># this blocks, until the fork finished, and returns the last value</span></pre>
+<span class='id identifier rubyid_puts'>puts</span> <span class='id identifier rubyid_fork'>fork</span><span class='period'>.</span><span class='id identifier rubyid_return_value'>return_value</span> <span class='comment'># this blocks, until the fork finished, and returns the last value</span></pre>
     
       
         <p class="example_title"><div class='inline'><p>And the simplest version, if all you care about is the return value</p>
@@ -155,7 +155,7 @@ with each other.</p>
 </span><span class='id identifier rubyid_future'>future</span> <span class='op'>=</span> <span class='const'>Fork</span><span class='period'>.</span><span class='id identifier rubyid_future'>future</span> <span class='kw'>do</span>
   <span class='id identifier rubyid_fib'>fib</span><span class='lparen'>(</span><span class='int'>35</span><span class='rparen'>)</span>
 <span class='kw'>end</span>
-<span class='id identifier rubyid_future'>future</span><span class='period'>.</span><span class='id identifier rubyid_call'>call</span> <span class='comment'># this blocks, until the fork finished, and returns the last value</span></pre>
+<span class='id identifier rubyid_puts'>puts</span> <span class='id identifier rubyid_future'>future</span><span class='period'>.</span><span class='id identifier rubyid_call'>call</span> <span class='comment'># this blocks, until the fork finished, and returns the last value</span></pre>
     
   </div>
 
@@ -4080,7 +4080,7 @@ Works just like IO#write</p>
 </div>
 
     <div id="footer">
-  Generated on Sun May  6 23:29:21 2012 by
+  Generated on Sat May 12 11:12:55 2012 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.1 (ruby-1.9.3).
 </div>

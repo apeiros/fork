@@ -81,9 +81,21 @@
 
 <h2 id="usage">Usage</h2>
 
+<p>An example using a future:</p>
+
+<pre class="code ruby"><code><span class='kw'>def</span> <span class='id identifier rubyid_fib'>fib</span><span class='lparen'>(</span><span class='id identifier rubyid_n'>n</span><span class='rparen'>)</span> <span class='id identifier rubyid_n'>n</span> <span class='op'>&lt;</span> <span class='int'>2</span> <span class='op'>?</span> <span class='id identifier rubyid_n'>n</span> <span class='op'>:</span> <span class='id identifier rubyid_fib'>fib</span><span class='lparen'>(</span><span class='id identifier rubyid_n'>n</span><span class='op'>-</span><span class='int'>1</span><span class='rparen'>)</span><span class='op'>+</span><span class='id identifier rubyid_fib'>fib</span><span class='lparen'>(</span><span class='id identifier rubyid_n'>n</span><span class='op'>-</span><span class='int'>2</span><span class='rparen'>)</span><span class='semicolon'>;</span> <span class='kw'>end</span> <span class='comment'># &lt;-- bad implementation of fibonacci
+</span><span class='id identifier rubyid_future'>future</span> <span class='op'>=</span> <span class='const'>Fork</span><span class='period'>.</span><span class='id identifier rubyid_future'>future</span> <span class='kw'>do</span>
+  <span class='id identifier rubyid_fib'>fib</span><span class='lparen'>(</span><span class='int'>35</span><span class='rparen'>)</span>
+<span class='kw'>end</span>
+<span class='comment'># do something expensive in the parent process
+</span><span class='id identifier rubyid_puts'>puts</span> <span class='id identifier rubyid_future'>future</span><span class='period'>.</span><span class='id identifier rubyid_call'>call</span> <span class='comment'># this blocks, until the fork finished, and returns the last value
+</span></code></pre>
+
+<p>A more complex example, using some of Fork’s features:</p>
+
 <pre class="code ruby"><code><span class='comment'># Create a fork with two-directional IO, which returns values and raises
 </span><span class='comment'># exceptions in the parent process.
-</span><span class='id identifier rubyid_fork'>fork</span> <span class='op'>=</span> <span class='const'>Fork</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span> <span class='symbol'>:in</span><span class='comma'>,</span> <span class='symbol'>:out</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_fork'>fork</span><span class='op'>|</span>
+</span><span class='id identifier rubyid_fork'>fork</span> <span class='op'>=</span> <span class='const'>Fork</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span> <span class='symbol'>:to_fork</span><span class='comma'>,</span> <span class='symbol'>:from_fork</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_fork'>fork</span><span class='op'>|</span>
   <span class='kw'>while</span> <span class='id identifier rubyid_received'>received</span> <span class='op'>=</span> <span class='id identifier rubyid_fork'>fork</span><span class='period'>.</span><span class='id identifier rubyid_receive_object'>receive_object</span>
     <span class='id identifier rubyid_p'>p</span> <span class='symbol'>:fork_received</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_received'>received</span>
   <span class='kw'>end</span>
@@ -112,7 +124,7 @@ If you need a different license, please ask the author.</p>
 </div></div>
 
     <div id="footer">
-  Generated on Sun May  6 23:29:20 2012 by
+  Generated on Sat May 12 11:12:54 2012 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.1 (ruby-1.9.3).
 </div>
