@@ -11,5 +11,5 @@ end
 class Fork
 
   # The currently required version of the Fork gem
-  Version = Gem::Version.new("0.0.1")
+  Version = Gem::Version.new("1.0.0")
 end
