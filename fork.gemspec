@@ -12,6 +12,9 @@ Gem::Specification.new do |s|
   SUMMARY
   s.description               = <<-DESCRIPTION.gsub(/^    /, '').chomp
     Represents forks (child processes) as objects and makes interaction with forks easy.
+    It provides a simple interface to create forked futures, get the return value of the
+    fork, get an exception raised in the fork, and to send objects between parent and
+    forked process.
   DESCRIPTION
 
   s.files                     =
