@@ -19,21 +19,21 @@ require 'fork/version'
 #     end
 #     fork.execute
 #     puts "Forked child process with pid #{fork.pid} is currently #{fork.alive? ? 'alive' : 'dead'}"
-#     fork.return_value # this blocks, until the fork finished, and returns the last value
+#     puts fork.return_value # this blocks, until the fork finished, and returns the last value
 #
 # @example The same, but a bit simpler
 #     def fib(n) n < 2 ? n : fib(n-1)+fib(n-2); end # <-- bad implementation of fibonacci
 #     fork = Fork.execute :return do
 #       fib(35)
 #     end
-#     fork.return_value # this blocks, until the fork finished, and returns the last value
+#     puts fork.return_value # this blocks, until the fork finished, and returns the last value
 #
 # @example And the simplest version, if all you care about is the return value
 #     def fib(n) n < 2 ? n : fib(n-1)+fib(n-2); end # <-- bad implementation of fibonacci
 #     future = Fork.future do
 #       fib(35)
 #     end
-#     future.call # this blocks, until the fork finished, and returns the last value
+#     puts future.call # this blocks, until the fork finished, and returns the last value
 #
 # @note
 #   You should only interact between parent and fork by the means provided by the Fork

@@ -25,6 +25,18 @@ Installation
 Usage
 -----
 
+An example using a future:
+
+    def fib(n) n < 2 ? n : fib(n-1)+fib(n-2); end # <-- bad implementation of fibonacci
+    future = Fork.future do
+      fib(35)
+    end
+    # do something expensive in the parent process
+    puts future.call # this blocks, until the fork finished, and returns the last value
+
+
+A more complex example, using some of Fork's features:
+
     # Create a fork with two-directional IO, which returns values and raises
     # exceptions in the parent process.
     fork = Fork.new :to_fork, :from_fork do |fork|
