@@ -573,11 +573,14 @@ private
   #   Returns a pair of IO instances, just like IO::pipe. The IO's encoding is set to
   #   binary.
   def binary_pipe
-     in_io, out_io = IO.pipe(Encoding::BINARY)
-     in_io.set_encoding(Encoding::BINARY)
-     out_io.set_encoding(Encoding::BINARY)
-
-     [in_io, out_io]
+    if defined?(Encoding::BINARY)
+      in_io, out_io = IO.pipe(Encoding::BINARY)
+      in_io.set_encoding(Encoding::BINARY)
+      out_io.set_encoding(Encoding::BINARY)
+      [in_io, out_io]
+    else
+      IO.pipe
+    end
   end
 
   # @private
