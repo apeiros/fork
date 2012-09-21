@@ -64,6 +64,7 @@ class Fork
     :to_fork      => false,
     :from_fork    => false,
     :ctrl         => false,
+    :verbose      => false,
   })
 
   # Reads an object sent via Fork.read_marshalled from the passed io.
@@ -250,6 +251,11 @@ class Fork
     complete!(pid, parent_read, parent_write, ctrl_read)
 
     self
+  end
+
+  # @return [Boolean] Whether this fork is verbose concerning exceptions.
+  def verbose?
+    @flags[:verbose]
   end
 
   # @return [Boolean] Whether this fork sends the final exception to the parent
@@ -616,7 +622,7 @@ private
   rescue *IgnoreExceptions
     raise # reraise ignored exceptions as-is
   rescue Exception => e
-    $stdout.puts "Exception in child #{$$}: #{e}", *e.backtrace.first(5)
+    $stdout.puts "Exception in child #{$$}: #{e}", *e.backtrace.first(5) if verbose?
     if handle_exceptions?
       begin
         Fork.write_marshalled(@ctrl, [:exception, e])
