@@ -565,6 +565,7 @@ class Fork
   end
 
 private
+
   # @private
   # Work around issues in 1.9.3-p194 (it has difficulties with the encoding settings of
   # the pipes).
@@ -577,6 +578,7 @@ private
       in_io, out_io = IO.pipe(Encoding::BINARY)
       in_io.set_encoding(Encoding::BINARY)
       out_io.set_encoding(Encoding::BINARY)
+
       [in_io, out_io]
     else
       IO.pipe
