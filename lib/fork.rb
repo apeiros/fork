@@ -618,7 +618,6 @@ private
   rescue *IgnoreExceptions
     raise # reraise ignored exceptions as-is
   rescue Exception => e
-    $stdout.puts "Exception in child #{$$}: #{e}", *e.backtrace.first(5)
     if handle_exceptions?
       begin
         Fork.write_marshalled(@ctrl, [:exception, e])
