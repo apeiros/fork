@@ -27,29 +27,32 @@ Usage
 
 An example using a future:
 
-    def fib(n) n < 2 ? n : fib(n-1)+fib(n-2); end # <-- bad implementation of fibonacci
-    future = Fork.future do
-      fib(35)
-    end
-    # do something expensive in the parent process
-    puts future.call # this blocks, until the fork finished, and returns the last value
+```ruby
+def fib(n) n < 2 ? n : fib(n-1)+fib(n-2); end # <-- bad implementation of fibonacci
+future = Fork.future do
+  fib(35)
+end
+# do something expensive in the parent process
+puts future.call # this blocks, until the fork finished, and returns the last value
+```
 
 
 A more complex example, using some of Fork's features:
-
-    # Create a fork with two-directional IO, which returns values and raises
-    # exceptions in the parent process.
-    fork = Fork.new :to_fork, :from_fork do |fork|
-      while received = fork.receive_object
-        p :fork_received => received
-      end
-    end
-    fork.execute # spawn child process and start executing
-    fork.send_object(123)
-    puts "Fork runs as process with pid #{fork.pid}"
-    fork.send_object(nil) # terminate the fork
-    fork.wait # wait until the fork is indeed terminated
-    puts "Fork is dead, as expected" if fork.dead?
+```ruby
+# Create a fork with two-directional IO, which returns values and raises
+# exceptions in the parent process.
+fork = Fork.new :to_fork, :from_fork do |fork|
+  while received = fork.receive_object
+    p :fork_received => received
+  end
+end
+fork.execute # spawn child process and start executing
+fork.send_object(123)
+puts "Fork runs as process with pid #{fork.pid}"
+fork.send_object(nil) # terminate the fork
+fork.wait # wait until the fork is indeed terminated
+puts "Fork is dead, as expected" if fork.dead?
+```
 
 
 Links
