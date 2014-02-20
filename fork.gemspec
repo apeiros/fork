@@ -2,7 +2,7 @@
 
 Gem::Specification.new do |s|
   s.name                      = "fork"
-  s.version                   = "1.0.0"
+  s.version                   = "1.0.1"
   s.authors                   = "Stefan Rusterholz"
   s.email                     = "stefan.rusterholz@gmail.com"
   s.homepage                  = "https://github.com/apeiros/fork"
