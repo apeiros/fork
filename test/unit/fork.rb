@@ -1,6 +1,15 @@
 require 'fork'
 
 class ForkTest < Test::Unit::TestCase
+  class TestError < StandardError
+    attr_reader :file
+
+    def initialize(message, file)
+      super(message)
+      @file = file
+    end
+  end
+
   test "Examples from readme" do
     fork = Fork.new :to_fork, :from_fork do |fork|
       while received = fork.receive_object
@@ -80,5 +89,41 @@ class ForkTest < Test::Unit::TestCase
     sleep(0.5)
     result  = future.call
     assert_equal value, result
+  end
+
+  test 'Fork#exception returns exception' do
+    error = StandardError.new('abc')
+    fork = Fork.new :exceptions do
+      raise error
+    end
+    fork.execute
+    assert_equal(error.class, fork.exception.class)
+    assert_equal(error.message, fork.exception.message)
+  end
+
+  test 'Fork#exception returns exception with large backtrace' do
+    error = StandardError.new('abc')
+    fork = Fork.new :exceptions do
+      n = 1_000
+      tail_iter = lambda do |i|
+        raise error if i < 1
+        tail_iter.call(i - 1)
+      end
+      tail_iter.call(n)
+    end
+    fork.execute
+    assert_equal(error.class, fork.exception.class)
+    assert_equal(error.message, fork.exception.message)
+  end
+
+  test 'Fork#exception returns UndumpableException if cannot marshal' do
+    read, _ = IO.pipe
+    error = TestError.new('foo', read)
+    fork = Fork.new :exceptions do
+      raise error
+    end
+    fork.execute
+    assert_equal(Fork::UndumpableException, fork.exception.class)
+    assert_equal("Could not send original exception to parent. Original exception ForkTest::TestError: 'foo'", fork.exception.message)
   end
 end
