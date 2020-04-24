@@ -597,11 +597,16 @@ private
   def _wait(blocking=true)
     raise NotRunning unless @pid
 
-    _, status = *Process.wait2(@pid, blocking ? 0 : Process::WNOHANG)
+    if has_ctrl? && blocking
+      read_remaining_ctrl(false)
+      _, status = Process.wait2(@pid)
+    else
+      _, status = Process.wait2(@pid, blocking ? 0 : Process::WNOHANG)
+    end
     if status then
       @process_status = status
       @exit_status    = status.exitstatus
-      read_remaining_ctrl if has_ctrl?
+      read_remaining_ctrl if has_ctrl? && !blocking
     end
   rescue Errno::ECHILD # can happen if the process is already collected
     raise "Can't determine exit status of #{self}, make sure to not interfere with process handling externally" unless @process_status
