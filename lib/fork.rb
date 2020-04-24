@@ -598,9 +598,8 @@ private
     raise NotRunning unless @pid
 
     if has_ctrl? && blocking
-      t = Thread.new { read_remaining_ctrl(false) }
+      read_remaining_ctrl(false)
       _, status = Process.wait2(@pid)
-      t.join
     else
       _, status = Process.wait2(@pid, blocking ? 0 : Process::WNOHANG)
     end

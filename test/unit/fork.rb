@@ -91,6 +91,14 @@ class ForkTest < Test::Unit::TestCase
     assert_equal value, result
   end
 
+  test 'Fork returns large value' do
+    fork = Fork.new :return do
+      'a' * 4100
+    end
+    fork.execute
+    assert_equal 'a' * 4100, fork.return_value
+  end
+
   test 'Fork#exception returns exception' do
     error = StandardError.new('abc')
     fork = Fork.new :exceptions do
